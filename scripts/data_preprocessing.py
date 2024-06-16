@@ -1,38 +1,51 @@
 import pandas as pd
 
-def load_and_preprocess_data(file_path):
-   # Load the dataset
+def load_data(file_path):
+   """
+   Load the dataset from a given file path.
+
+   Parameters:
+   file_path (str): The path to the CSV file.
+
+   Returns:
+   pd.DataFrame: Loaded dataframe.
+   """
+
    df = pd.read_csv(file_path)
-    
-   #preprocessing steps from the notebook
-   #removing negative prices and zero-dimensional stones
-   df = df[(df.x * df.y * df.z != 0) & (df.price > 0)]
    
-   #drop irrelevant columns for linear regression
-   df = df.drop(columns=['depth', 'table', 'y', 'z'])
-
-   #get dummy variables 
-   df = pd.get_dummies(df, columns=['cut', 'color', 'clarity'], drop_first=True)    
-
-   
-
    return df
 
-def preprocess_data(df):
-    # Check if all required columns are present
-    required_columns = ['x', 'cut', 'color', 'clarity']
-    missing_columns = [col for col in required_columns if col not in df.columns]
+def linear_model_preprocess(df):
+   """
+   Preprocess the dataframe for linear regression.
 
-    if missing_columns:
-        raise ValueError(f"Missing columns in input data: {', '.join(missing_columns)}")
+   Parameters:
+   df (pd.DataFrame): Raw dataframe.
 
-    # Preprocessing steps similar to load_and_preprocess_data but for in-memory data
-    # Remove negative prices and zero-dimensional stones
-    
-    # Drop irrelevant columns for linear regression
-    df = df.drop(columns=['depth', 'table', 'y', 'z'])
+   Returns:
+   pd.DataFrame: Preprocessed dataframe for linear regression.
+   """
 
-    # Get dummy variables 
-    df = pd.get_dummies(df, columns=['cut', 'color', 'clarity'], drop_first=True)    
+   df = df[(df.x * df.y * df.z != 0) & (df.price > 0)]
+   df = df.drop(columns=['depth', 'table', 'y', 'z'])
+   df = pd.get_dummies(df, columns=['cut', 'color', 'clarity'], drop_first=True)    
+   
+   return df
 
-    return df
+def xg_boost_preprocess(df):
+   """
+   Preprocess the dataframe for XGBoost model.
+
+   Parameters:
+   df (pd.DataFrame): Raw dataframe.
+
+   Returns:
+   pd.DataFrame: Preprocessed dataframe for XGBoost.
+   """
+   
+   df = df[(df.x * df.y * df.z != 0) & (df.price > 0)]
+   df['cut'] = pd.Categorical(df['cut'], categories=['Fair', 'Good', 'Very Good', 'Ideal', 'Premium'], ordered=True)
+   df['color'] = pd.Categorical(df['color'], categories=['D', 'E', 'F', 'G', 'H', 'I', 'J'], ordered=True)
+   df[f'clarity'] = pd.Categorical(df['clarity'], categories=['IF', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2', 'I1'], ordered=True)
+
+   return df
