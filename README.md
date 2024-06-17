@@ -69,3 +69,5 @@ Observability is key. Save every request and response made to the APIs to a **pr
 
 ## How to run
 🦎
+### Project organization for feature development 
+https://maratonacheckpoint.notion.site/Xtream-AI-e392e154df754c9293409079608e5fe3?pvs=4
