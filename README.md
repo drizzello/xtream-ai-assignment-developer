@@ -169,4 +169,3 @@ https://maratonacheckpoint.notion.site/Xtream-AI-e392e154df754c9293409079608e5fe
 - All API requests and responses are logged in the SQLite database `api_requests.db` for observability.
 - The model and its performance metrics are saved in the `models` directory, and the best model is stored in `models/best_model`.
 
-If you encounter any issues or need further assistance, please refer to the documentation or contact the project maintainers.
