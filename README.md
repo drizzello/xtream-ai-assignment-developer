@@ -70,6 +70,9 @@ Observability is key. Save every request and response made to the APIs to a **pr
 ## How to run
 🦎
 
+### Project's Notion Page: Planned Tasks, In-Progress Tasks, Completed Tasks
+https://maratonacheckpoint.notion.site/Xtream-AI-e392e154df754c9293409079608e5fe3?pvs=4
+
 ### Setting Up the Environment
 
 1. **Clone the Repository**:
