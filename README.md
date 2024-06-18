@@ -69,3 +69,101 @@ Observability is key. Save every request and response made to the APIs to a **pr
 
 ## How to run
 🦎
+
+### Setting Up the Environment
+
+1. **Clone the Repository**:
+   ```sh
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
+
+2. **Create a Virtual Environment**:
+   ```sh
+   python -m venv venv
+   ```
+
+3. **Activate the Virtual Environment**:
+   ```sh
+   source venv/bin/activate
+   ```
+
+4. **Install the Required Packages**:
+   ```sh
+   pip install -r requirements.txt
+   ```
+
+### Running the Machine Learning Pipeline
+
+1. **Run the Main Pipeline**:
+   ```sh
+   python scripts/main.py --data_url data/diamonds.csv --model_type linear
+   ```
+   Replace `linear` with `xgboost` to train the XGBoost model.
+
+   This script will:
+   - Load and preprocess the data.
+   - Train the specified model.
+   - Evaluate the model.
+   - Save the model and its performance metrics.
+
+### Running the API Server
+
+1. **Start the Flask API Server**:
+   ```sh
+   python scripts/api.py
+   ```
+   The server will start running on `http://127.0.0.1:5000`.
+
+2. **API Endpoints**:
+   - **Predict Diamond Price**:
+     - URL: `http://127.0.0.1:5000/predict`
+     - Method: `POST`
+     - Request JSON format:
+       ```json
+       {
+         "carat": 0.5,
+         "cut": "Premium",
+         "color": "E",
+         "clarity": "VS2",
+         "depth": 61.5,
+         "table": 55.0,
+         "x": 5.1,
+         "y": 5.1,
+         "z": 3.15
+       }
+       ```
+   - **Get Similar Diamonds**:
+     - URL: `http://127.0.0.1:5000/get_similar_diamonds`
+     - Method: `POST`
+     - Request JSON format:
+       ```json
+       {
+         "cut": "Premium",
+         "color": "E",
+         "clarity": "VS2",
+         "weight": 0.5,
+         "n": 5
+       }
+       ```
+
+### Running the Streamlit App
+
+1. **Start the Streamlit App**:
+   ```sh
+   streamlit run streamlit.py
+   ```
+   The app will open in your default web browser.
+
+2. **Using the Streamlit App**:
+   - The app has two sections:
+     - **Price Predictor**: Enter the diamond features and click "Predict" to get the estimated price.
+     - **Similar Diamonds Finder**: Enter the diamond features and the number of similar diamonds to find, then click "Find Similar Diamonds" to get the results.
+
+### Additional Notes
+
+- Ensure the Flask API server is running before using the Streamlit app.
+- All API requests and responses are logged in the SQLite database `api_requests.db` for observability.
+- The model and its performance metrics are saved in the `models` directory, and the best model is stored in `models/best_model`.
+
+If you encounter any issues or need further assistance, please refer to the documentation or contact the project maintainers.
