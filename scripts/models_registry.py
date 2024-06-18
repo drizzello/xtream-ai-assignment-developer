@@ -1,32 +1,48 @@
-from data_preprocessing import linear_model_preprocess, xg_boost_preprocess
-from train_model import train_linear_model, train_xgboost_model
+import importlib
 
 """
 Model Registry
 
-This module defines the registry of models and their corresponding preprocessing
-training functions and parameters. The registry allows for easy addition of new models
+This module defines the registry of models and their corresponding preprocessing,
+training functions, and parameters. The registry allows for easy addition of new models
 by mapping model names to their respective functions.
 
 Functions:
-    linear_model_preprocess -- Preprocess data for the linear regression model
-    train_linear_model -- Train the linear regression model
-    xg_boost_preprocess -- Preprocess data for the XGBoost model
-    train_xgboost_model -- Train the XGBoost model
+   dynamic_import -- Dynamically imports a function from a given module.
 
 Registry:
-    model_registry -- Dictionary mapping model names to their preprocessing and training functions
+   model_registry -- Dictionary mapping model names to their preprocessing and training functions.
 """
 
 model_registry = {
-    'linear': {
-        'preprocess': linear_model_preprocess,
-        'train': train_linear_model,
-        'log_transform': True
-    },
-    'xgboost': {
-        'preprocess': xg_boost_preprocess,
-        'train': train_xgboost_model,
-        'log_transform': False
-    }
+   'linear': {
+      'preprocess_module': 'data_preprocessing',
+      'preprocess_function': 'linear_model_preprocess',
+      'train_module': 'train_model',
+      'train_function': 'train_linear_model',
+      'log_transform': True
+   },
+   'xgboost': {
+      'preprocess_module': 'data_preprocessing',
+      'preprocess_function': 'xg_boost_preprocess',
+      'train_module': 'train_model',
+      'train_function': 'train_xgboost_model',
+      'log_transform': False
+   }
+   # Add more models here as needed
 }
+
+def dynamic_import(module_name, function_name):
+   """
+   Dynamically imports a function from a given module.
+
+   Parameters:
+   module_name (str): The name of the module from which to import the function.
+   function_name (str): The name of the function to import.
+
+   Returns:
+   function: The imported function.
+   """
+   module = importlib.import_module(module_name)
+   function = getattr(module, function_name)
+   return function

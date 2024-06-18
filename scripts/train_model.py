@@ -4,6 +4,16 @@ import xgboost
 import numpy as np
 
 def train_linear_model(df):
+   """
+   Train a linear regression model.
+
+   Parameters:
+   df (pd.DataFrame): The dataframe containing features and target variable.
+
+   Returns:
+   tuple: A tuple containing the trained model, test features, and test target variable.
+   """
+   
    # Split the data into features and target variable
    x = df.drop(columns='price')
    y = df.price
@@ -20,6 +30,16 @@ def train_linear_model(df):
    return model, x_test, y_test
 
 def train_xgboost_model(df):
+   """
+   Train an XGBoost regression model.
+
+   Parameters:
+   df (pd.DataFrame): The dataframe containing features and target variable.
+
+   Returns:
+   tuple: A tuple containing the trained model, test features, and test target variable.
+   """
+
    # Split the data into features and target variable
    x = df.drop(columns='price')
    y = df.price
